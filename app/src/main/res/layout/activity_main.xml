@@ -2,18 +2,120 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/introduction"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00E8B0"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <ImageView
+        android:id="@+id/cooking_bowl_image"
+        android:layout_width="104dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/cooking"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/flour_image"
+        android:layout_width="107dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/flour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/beater_image"
+        android:layout_width="106dp"
+        android:layout_height="158dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/beater"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cooking_bowl_image" />
+
+    <ImageView
+        android:id="@+id/recipe_book_image"
+        android:layout_width="206dp"
+        android:layout_height="179dp"
+        android:layout_marginBottom="330dp"
+        android:src="@drawable/recipe_book"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/fork_image"
+        android:layout_width="95dp"
+        android:layout_height="122dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/fork"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flour_image" />
+
+    <ImageView
+        android:id="@+id/mixing_bowl_image"
+        android:layout_width="112dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/mixing_bowl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/beater_image" />
+
+    <ImageView
+        android:id="@+id/ramen_image"
+        android:layout_width="103dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ramen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fork_image" />
+
+    <TextView
+        android:id="@+id/start_cooking_text"
+        android:layout_width="175dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="Start Cooking"
+        android:textColor="#2E3E5C"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sub_text"
+        android:layout_width="359dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="56dp"
+        android:gravity="center"
+        android:text="Tell us what you like, and we'll create the recipe!"
+        android:textColor="#696D83"
+        android:textSize="15sp"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start_cooking_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="#2E3E5C"
+        android:text="Get Started"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sub_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
