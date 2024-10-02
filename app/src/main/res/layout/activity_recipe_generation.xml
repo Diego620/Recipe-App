@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/introduction"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00E8B0"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/generate_recipe_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/generate_recipe_text"
+        android:textColor="#2E3E5C"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/input_recipe"
+        android:layout_width="327dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/edittext_background"
+        android:drawableEnd="@drawable/ic_arrow"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:hint="Enter The Name Of The Dish"
+        android:padding="16dp"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/generate_recipe_text" />
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/material_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="196dp"
+        android:text="Voice On/Off"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_recipe"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/or_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="OR"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@id/input_recipe"
+        app:layout_constraintStart_toStartOf="@id/input_recipe"
+        app:layout_constraintTop_toBottomOf="@id/input_recipe" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/upload_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#2E3E5C"
+        android:drawableLeft="@drawable/upload_icon"
+        android:padding="10dp"
+        android:text="Upload Image"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@id/or_text"
+        app:layout_constraintStart_toStartOf="@id/or_text"
+        app:layout_constraintTop_toBottomOf="@id/or_text" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/featured_recipe_text"
+        android:text="Try These Featured Recipes!"
+        android:textColor="#2E3E5C"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_image_button" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/featured_recipes_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/featured_recipe_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal" />
+
+    <ImageButton
+        android:id="@+id/star_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="20dp"
+        android:contentDescription="Save Recipe"
+        android:src="@drawable/ic_star"
+        app:layout_constraintTop_toBottomOf="@id/featured_recipes_recycler_view"
+        app:layout_constraintEnd_toEndOf="@id/upload_image_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Recipe"
+        android:textColor="#2E3E5C"
+        android:textSize="15sp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintStart_toEndOf="@id/star_button"
+        app:layout_constraintBottom_toBottomOf="@id/star_button"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation_menu" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
