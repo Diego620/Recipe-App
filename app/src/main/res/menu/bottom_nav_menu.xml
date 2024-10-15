@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_generate"
+        android:icon="@drawable/ic_generate_recipe"
+        android:title="Generate Recipe" />
+
+    <item
+        android:id="@+id/nav_saved"
+        android:icon="@drawable/ic_saved_recipes"
+        android:title="Saved Recipes" />
+</menu>
