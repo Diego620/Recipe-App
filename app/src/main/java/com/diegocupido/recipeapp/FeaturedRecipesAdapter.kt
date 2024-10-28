@@ -7,8 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class FeaturedRecipesAdapter(private val recipes: List<Pair<String, Int>>) :
-    RecyclerView.Adapter<FeaturedRecipesAdapter.RecipeViewHolder>() {
+class FeaturedRecipesAdapter(
+    private val recipes: List<Pair<String, Int>>,
+    private val onRecipeClick: (String) -> Unit
+) : RecyclerView.Adapter<FeaturedRecipesAdapter.RecipeViewHolder>() {
 
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val recipeImage: ImageView = view.findViewById(R.id.recipe_image)
@@ -25,7 +27,13 @@ class FeaturedRecipesAdapter(private val recipes: List<Pair<String, Int>>) :
         val (name, imageRes) = recipes[position]
         holder.recipeName.text = name
         holder.recipeImage.setImageResource(imageRes)
+
+
+        holder.itemView.setOnClickListener {
+            onRecipeClick(name)
+        }
     }
 
     override fun getItemCount() = recipes.size
 }
+

@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val intent = Intent(this, RecipeActivity::class.java) // Replace with your activity name
+        val intent = Intent(this, MainFragmentActivity::class.java) // Replace with your activity name
         startActivity(intent)
         finish()
     }
