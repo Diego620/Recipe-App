@@ -16,7 +16,8 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/cooking"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,ImageContrastCheck" />
 
     <ImageView
         android:id="@+id/flour_image"
@@ -26,7 +27,8 @@
         android:layout_marginEnd="16dp"
         android:src="@drawable/flour"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,ImageContrastCheck" />
 
 
     <ImageView
@@ -36,7 +38,8 @@
         android:layout_marginTop="4dp"
         android:src="@drawable/beater"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cooking_bowl_image" />
+        app:layout_constraintTop_toBottomOf="@id/cooking_bowl_image"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/recipe_book_image"
@@ -47,7 +50,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,ImageContrastCheck" />
 
     <ImageView
         android:id="@+id/fork_image"
@@ -57,7 +61,8 @@
         android:layout_marginEnd="4dp"
         android:src="@drawable/fork"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flour_image" />
+        app:layout_constraintTop_toBottomOf="@id/flour_image"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/mixing_bowl_image"
@@ -66,7 +71,8 @@
         android:layout_marginStart="4dp"
         android:src="@drawable/mixing_bowl"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/beater_image" />
+        app:layout_constraintTop_toBottomOf="@id/beater_image"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/ramen_image"
@@ -76,39 +82,43 @@
         android:layout_marginEnd="16dp"
         android:src="@drawable/ramen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fork_image" />
+        app:layout_constraintTop_toBottomOf="@id/fork_image"
+        tools:ignore="ContentDescription,ImageContrastCheck" />
 
     <TextView
         android:id="@+id/start_cooking_text"
         android:layout_width="175dp"
         android:layout_height="40dp"
         android:layout_marginTop="80dp"
+        android:elevation="5dp"
         android:gravity="center"
         android:text="Start Cooking"
         android:textColor="#2E3E5C"
         android:textSize="23sp"
         android:textStyle="bold"
-        android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,TextSizeCheck" />
 
     <TextView
         android:id="@+id/sub_text"
         android:layout_width="359dp"
         android:layout_height="58dp"
         android:layout_marginTop="56dp"
+        android:elevation="5dp"
         android:gravity="center"
         android:text="Tell us what you like, and we'll create the recipe!"
-        android:textColor="#696D83"
+        android:textColor="#455A64"
         android:textSize="15sp"
-        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/start_cooking_text" />
+        app:layout_constraintTop_toBottomOf="@id/start_cooking_text"
+        tools:ignore="HardcodedText,TextSizeCheck" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_login"
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:layout_marginTop="48dp"
@@ -117,5 +127,6 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sub_text" />
+        app:layout_constraintTop_toBottomOf="@id/sub_text"
+        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
