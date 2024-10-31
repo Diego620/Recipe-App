@@ -1,4 +1,4 @@
-package com.diegocupido.recipeapp
+package com.diegocupido.recipeapp.Register
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
+import com.diegocupido.recipeapp.Database.DatabaseHelper
+import com.diegocupido.recipeapp.Login.LoginActivity
+import com.diegocupido.recipeapp.R
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -30,13 +32,11 @@ class RegisterActivity : AppCompatActivity() {
             if (phoneEmail.isNotEmpty() && password.isNotEmpty()) {
                 val result = dbHelper.addUser(phoneEmail, password)
                 if (result != -1L) {
-                    // sends them back to login page
                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
-                    // I should change this
                     Toast.makeText(this, "Registration failed!", Toast.LENGTH_SHORT).show()
                 }
             } else {

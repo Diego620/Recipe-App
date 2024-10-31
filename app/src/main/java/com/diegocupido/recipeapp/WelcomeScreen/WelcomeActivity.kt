@@ -1,8 +1,10 @@
-package com.diegocupido.recipeapp
+package com.diegocupido.recipeapp.WelcomeScreen
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.diegocupido.recipeapp.Login.LoginActivity
+import com.diegocupido.recipeapp.R
 
 
 class WelcomeActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ class WelcomeActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

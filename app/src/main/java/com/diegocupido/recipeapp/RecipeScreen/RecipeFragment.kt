@@ -1,4 +1,4 @@
-package com.diegocupido.recipeapp
+package com.diegocupido.recipeapp.RecipeScreen
 
 import android.app.Activity
 import android.content.Intent
@@ -29,6 +29,8 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.diegocupido.recipeapp.RecipeAdapter.FeaturedRecipesAdapter
+import com.diegocupido.recipeapp.R
 import com.diegocupido.recipeapp.apiStuff.Message
 import com.diegocupido.recipeapp.apiStuff.OpenAIRequest
 import com.diegocupido.recipeapp.apiStuff.OpenAIResponse
@@ -76,6 +78,7 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
         recipeCardView = view.findViewById(R.id.recipeCardView)
         sharedPreferences =
             requireActivity().getSharedPreferences("RecipePrefs", AppCompatActivity.MODE_PRIVATE)
+
         loadSavedData()
         onClickHintUpdate()
         setupStarButton(view)
@@ -83,12 +86,12 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
         displayingFeaturedRecipes(view)
         setUpUi(view)
 
-        // Set up the toggle listener
+        // Text to speech check
         ttsSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (!isAnimating && isChecked && isTtsReady && resultTextView.text.isNotEmpty()) {
                 speakRecipe()
             } else {
-                textToSpeech.stop() // Stop TTS if the switch is turned off
+                textToSpeech.stop()
             }
         }
 
@@ -104,8 +107,9 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
 
+    // Output text to speech
     private fun speakRecipe() {
-        if (ttsSwitch.isChecked && resultTextView.text.isNotEmpty()) { // Only speak if the switch is on
+        if (ttsSwitch.isChecked && resultTextView.text.isNotEmpty()) {
             textToSpeech.speak(resultTextView.text.toString(), TextToSpeech.QUEUE_FLUSH, null, null)
         }
     }
@@ -114,7 +118,7 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
     override fun onDestroy() {
         super.onDestroy()
         textToSpeech.stop()
-        textToSpeech.shutdown() // Properly release TTS resources
+        textToSpeech.shutdown()
     }
 
     private fun loadSavedData() {
@@ -143,9 +147,10 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onResume() {
         super.onResume()
-        loadSavedData() // Load data here
+        loadSavedData()
     }
 
+    // rewrite the hint within the edit view
     private fun onClickHintUpdate() {
         inputRecipe.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -185,31 +190,33 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
             .show()
     }
 
+    // Storing the save recipe to be retrieved
     private fun saveRecipe(recipeTitle: String) {
         val recipeDetails = resultTextView.text.toString()
 
         if (recipeTitle.isNotEmpty() && recipeDetails.isNotEmpty()) {
             val editor = sharedPreferences.edit()
-            val savedRecipes =
-                sharedPreferences.getStringSet("savedRecipes", mutableSetOf()) ?: mutableSetOf()
+            val userId = sharedPreferences.getString("currentUserId", "defaultUserId") // You should set this when the user logs in
+            val savedRecipesKey = "savedRecipes_$userId"
+            val savedRecipes = sharedPreferences.getStringSet(savedRecipesKey, mutableSetOf()) ?: mutableSetOf()
             savedRecipes.add("$recipeTitle::$recipeDetails") // Save as "title::details"
-            editor.putStringSet("savedRecipes", savedRecipes)
+            editor.putStringSet(savedRecipesKey, savedRecipes)
             editor.apply()
 
-            // Get the Bottom Navigation View
-            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation) // Replace with your actual ID
-
+            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
             Snackbar.make(requireView(), "Recipe saved!", Snackbar.LENGTH_SHORT)
-                .setAnchorView(bottomNavigationView) // Set anchor view to Bottom Navigation Bar
+                .setAnchorView(bottomNavigationView)
                 .show()
         }
     }
 
+    // underlines featured recipe header
     private fun underlineText(view: View) {
         val featuredRecipesText: TextView = view.findViewById(R.id.featured_recipe_text)
         featuredRecipesText.paintFlags = featuredRecipesText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
     }
 
+    // displays and generates the featured recipes
     private fun displayingFeaturedRecipes(view: View) {
         val recyclerView: RecyclerView = view.findViewById(R.id.featured_recipes_recycler_view)
         recyclerView.layoutManager =
@@ -229,6 +236,7 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
         recyclerView.adapter = adapter
     }
 
+    //  initializes the input dialog and image upload feature
     private fun setUpUi(view: View) {
         inputRecipe.setOnClickListener {
             showInputDialog()
@@ -241,7 +249,7 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
             startActivityForResult(pickImageIntent, request_code_pick_image)
         }
     }
-
+    // displays the dialog box
     private fun showInputDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_input, null)
         val dialogInputRecipe: EditText = dialogView.findViewById(R.id.dialog_input_recipe)
@@ -264,9 +272,11 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
             .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+    // loading animation
     private fun showLoadingIndicator(show: Boolean) {
         progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
+    // making the api call
     private fun makeRecipeCall(userInput: String) {
         showLoadingIndicator(true) // Show loading indicator
         recipeCardView.visibility = View.GONE
@@ -282,7 +292,6 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
             max_tokens = 500
         )
 
-        // Make the API call
         RetrofitInstance.api.getRecipe(requestBody).enqueue(object : retrofit2.Callback<OpenAIResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
@@ -306,60 +315,54 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
             }
         })
     }
-
+    // displays a well formatted generated recipe inside of an animated cardview
     @RequiresApi(Build.VERSION_CODES.P)
     private fun displayGeneratedRecipe(recipe: String) {
         val cleanedRecipe = recipe.replace("#", "").replace("*", "")
         val formattedRecipe = cleanedRecipe
             .replace("ingredients:", "\nIngredients:", ignoreCase = true)
             .replace("instructions:", "\nInstructions:", ignoreCase = true)
-
-        // Call the typewriter function to display the formatted text
         typeWriterEffect(formattedRecipe.trim())
 
-        // Initially set the CardView visibility to GONE
+
         recipeCardView.visibility = View.GONE
 
-        // Animate the CardView to fade in
-        recipeCardView.alpha = 0f // Set initial alpha to 0 for fade-in effect
-        recipeCardView.visibility = View.VISIBLE // Set visibility to visible
-        recipeCardView.animate()
-            .alpha(1f) // Animate to full opacity
-            .setDuration(500) // Duration of the animation
-            .start() // Start the animation
 
-        // Scroll to the CardView after making it visible
+        recipeCardView.alpha = 0f
+        recipeCardView.visibility = View.VISIBLE
+        recipeCardView.animate()
+            .alpha(1f)
+            .setDuration(500)
+            .start()
+
         scrollView.post {
             scrollView.scrollTo(0, recipeCardView.top)
         }
 
         if (ttsSwitch.isChecked && isTtsReady) {
-            speakRecipe() // Automatically read out the recipe if TTS is enabled
+            speakRecipe()
         }
     }
 
+    // type writer animation for generating the recipe
     private fun typeWriterEffect(finalText: String) {
-        resultTextView.text = "" // Clear previous text
+        resultTextView.text = ""
         val handler = Handler(Looper.getMainLooper())
-        val delay: Long = 20 // Milliseconds delay between each character
+        val delay: Long = 20
 
-        isAnimating = true  // Set the animating flag to true
+        isAnimating = true
 
         for (i in finalText.indices) {
             handler.postDelayed({
                 resultTextView.append(finalText[i].toString())
 
-                // Check if it's the last character
                 if (i == finalText.lastIndex) {
-                    // After typing is complete, reset the animating flag
                     isAnimating = false
 
-                    // Scroll to the CardView after typing is complete
                     scrollView.post {
                         scrollView.scrollTo(0, recipeCardView.top)
                     }
 
-                    // Speak the recipe if TTS is enabled
                     if (ttsSwitch.isChecked && isTtsReady) {
                         speakRecipe()
                     }
@@ -368,7 +371,7 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
 
-
+    // overriding onActivityResult to access camera features
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == request_code_pick_image && resultCode == Activity.RESULT_OK) {
@@ -388,11 +391,12 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
         return Base64.encodeToString(byteArray, Base64.NO_WRAP)
     }
 
+    // making the api call to process image
     private fun sendImageToOpenAI(base64Image: String) {
         showLoadingIndicator(true)
         val client = OkHttpClient()
         val apiKey =
-            "sk-YK3yPfA8esGlqSTc6RugrS51vtLD_bS0imI0FRIB4ST3BlbkFJIZdhAoP-DUa8b4Jx14SrTrb6rhuTVVL8rIgnlXkuYA" // Replace with your API key
+            "sk-YK3yPfA8esGlqSTc6RugrS51vtLD_bS0imI0FRIB4ST3BlbkFJIZdhAoP-DUa8b4Jx14SrTrb6rhuTVVL8rIgnlXkuYA"
         val url = "https://api.openai.com/v1/chat/completions"
 
         val payload = """
@@ -435,14 +439,12 @@ class RecipeFragment : Fragment(), TextToSpeech.OnInitListener {
                     val recipeResult = jsonResponse?.getJSONArray("choices")?.getJSONObject(0)
                         ?.getJSONObject("message")?.getString("content")
 
-                    // Update UI on the main thread
                     activity?.runOnUiThread {
                         if (recipeResult != null) {
                             displayGeneratedRecipe(recipeResult)
                         }
                     }
                 } else {
-                    // Debugging: Print full error response
                     Log.e("ImageToOpenAI", "Error: ${response.code}: ${response.body?.string()}")
                 }
             }

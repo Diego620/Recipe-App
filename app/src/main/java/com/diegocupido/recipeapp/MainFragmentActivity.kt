@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.diegocupido.recipeapp.RecipeScreen.RecipeFragment
+import com.diegocupido.recipeapp.SavedRecipesScreen.SavedRecipeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainFragmentActivity : AppCompatActivity() {
@@ -14,7 +16,7 @@ class MainFragmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_fragment)
 
-        sharedPreferences = getSharedPreferences("RecipePrefs", AppCompatActivity.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("RecipePrefs", MODE_PRIVATE)
 
         if (savedInstanceState == null) {
             loadFragment(RecipeFragment())

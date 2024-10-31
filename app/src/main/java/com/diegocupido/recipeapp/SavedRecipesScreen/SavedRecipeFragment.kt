@@ -1,4 +1,4 @@
-package com.diegocupido.recipeapp
+package com.diegocupido.recipeapp.SavedRecipesScreen
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.diegocupido.recipeapp.R
+import com.diegocupido.recipeapp.Recipe
+import com.diegocupido.recipeapp.RecipeAdapter.RecipeAdapter
 
 class SavedRecipeFragment : Fragment() {
 
@@ -44,8 +47,12 @@ class SavedRecipeFragment : Fragment() {
         return view
     }
 
+    // fetches recipe from the generating screen
     private fun loadSavedRecipes() {
-        val savedRecipes = sharedPreferences.getStringSet("savedRecipes", emptySet())
+        val userId = sharedPreferences.getString("currentUserId", "defaultUserId") // Retrieve the current user's ID
+        val savedRecipesKey = "savedRecipes_$userId"
+        val savedRecipes = sharedPreferences.getStringSet(savedRecipesKey, emptySet())
+
         recipeList.clear()
 
         savedRecipes?.forEach { recipeString ->
@@ -57,6 +64,7 @@ class SavedRecipeFragment : Fragment() {
         recipeAdapter.notifyDataSetChanged()
     }
 
+    // Displays the recipe
     private fun showRecipeDetails(recipe: Recipe) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle(recipe.name)
@@ -68,13 +76,16 @@ class SavedRecipeFragment : Fragment() {
         alertDialog.show()
     }
 
+    // Delete Recipe
     private fun deleteRecipe(recipe: Recipe) {
-        // Remove the recipe from the list
         recipeAdapter.removeRecipe(recipe)
 
-        // Update SharedPreferences to remove the recipe
-        val savedRecipes = sharedPreferences.getStringSet("savedRecipes", mutableSetOf())?.toMutableSet()
+        val userId = sharedPreferences.getString("currentUserId", "defaultUserId")
+        val savedRecipesKey = "savedRecipes_$userId"
+
+        val savedRecipes = sharedPreferences.getStringSet(savedRecipesKey, mutableSetOf())?.toMutableSet()
         savedRecipes?.remove("${recipe.name}::${recipe.details}")
-        sharedPreferences.edit().putStringSet("savedRecipes", savedRecipes).apply()
+
+        sharedPreferences.edit().putStringSet(savedRecipesKey, savedRecipes).apply()
     }
 }

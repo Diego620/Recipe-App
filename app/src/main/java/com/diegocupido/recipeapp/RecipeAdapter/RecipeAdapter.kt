@@ -1,4 +1,4 @@
-package com.diegocupido.recipeapp
+package com.diegocupido.recipeapp.RecipeAdapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.diegocupido.recipeapp.R
+import com.diegocupido.recipeapp.Recipe
 
 class RecipeAdapter(
     private val recipes: MutableList<Recipe>, // Make the list mutable to allow deletion

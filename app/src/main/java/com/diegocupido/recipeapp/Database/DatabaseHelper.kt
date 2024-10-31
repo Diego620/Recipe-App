@@ -1,4 +1,4 @@
-package com.diegocupido.recipeapp
+package com.diegocupido.recipeapp.Database
 
 import android.content.ContentValues
 import android.content.Context
@@ -47,4 +47,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cursor.close()
         return exists
     }
+
+
 }
